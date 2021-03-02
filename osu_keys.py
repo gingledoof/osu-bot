@@ -1,28 +1,24 @@
 
 import mss
-from pynput import keyboard
 from pynput.keyboard import Controller
+from pynput.keyboard import Listener
 from time import sleep
+from random import randint
+from utils import *
+import multiprocessing
 
 cont = Controller()
-note_height = 25
-monitor = {"top": 895-note_height, "left": 300, "width": 500+250, "height": 3+note_height}
-thres = 70
 
-y_center = 0
-keys = {'q': 40, 'w': 110, 'e': 175, 'r': 240, 't': 310, 'y': 375, 'u': 445}
-
-keys10k = {'q': 40, 'w': 110, 'e': 175, 'r': 240, 't': 310, 'y': 466, 'u': 532, 'i': 600, 'o': 668, 'p': 735}
-keys_black10k = {'q': 10, 'w': 80, 'e': 145, 'r': 215, 't': 280, 'y': 440, 'u': 507, 'i': 575, 'o': 641, 'p': 709}
-
-keys_black = {'q': 10, 'w': 80, 'e': 145, 'r': 215, 't': 280, 'y': 350, 'u': 415}
+for key in keys.keys():
+    cont.press(key)
+    cont.release(key)
 
 def getKeys(sct):
     valid = []
-    for key in keys10k.items():
+    for key in keys.items():
 
         intens1 = 0
-        for i in range(4):
+        for i in range(3):
             p1 = sct.pixel(key[1], 2 +note_height + y_center - i)
             temp = ((p1[0] + p1[1] + p1[2]) / 3)
             if temp > intens1:
@@ -40,7 +36,7 @@ def getKeys(sct):
 
         # intens1 = 0
         # intens2 = 0
-        # for i in range(2):
+        # for i in range(2):w
         #     for j in range(2):
         #         p1 = sct.pixel(key[1] + i, y_center+note_height + j)
         #         intens1 = intens1 + ((p1[0] + p1[1] + p1[2])/3)/9
@@ -57,44 +53,52 @@ def getKeys(sct):
                 valid.append((key[0], False))
     return valid
 
+def key_loop():
+    prev = {'q': False, 'w': False, 'e': False, 'r': False, 't': False, 'y': False, 'u': False, 'i': False, 'o': False,
+            'p': False}
+    with mss.mss() as sct:
+        while True:
+            img = sct.grab(monitor)
+            ks = getKeys(img)
 
-import random
+            if len(ks) != 0:
+                for c, future in ks:
+                    if prev[c] == False:
+                        #sleep(getHit())
+                        cont.press(c)
+                sleep(note_delay)
+                for c, future in ks:
+                    if future:
+                        prev[c] = True
+                    if not future:
+                        cont.release(c)
+                        prev[c] = False
+
+T = multiprocessing.Process(target =key_loop)
 def on_press(key):
-
-    def getHit():
-        R=random.randint(1,100)
-        if R == 1:
-            #200 Hit
-            return 0
-        elif R <= 20:
-            return  0.0005
+    if (key == quit_key):
+        if T.is_alive():
+            print("Thread killed")
+            T.kill()
         else:
-            return 0
+            print("Not running")
 
-    if (key == keyboard.Key.num_lock):
+    if (key == bind_key):
         #Begin game
-        print("Begin...")
-        prev = {'q': False, 'w': False, 'e': False, 'r': False, 't': False, 'y': False, 'u': False, 'i': False, 'o': False, 'p': False}
-        with mss.mss() as sct:
-            while True:
-                img = sct.grab(monitor)
-                ks = getKeys(img)
-                #mss.tools.to_png(img.rgb, img.size, output="out.png")
-
-                if len(ks) != 0:
-                    for c, future in ks:
-                        if prev[c] == False:
-                            #sleep(getHit())
-                            cont.press(c)
-                    sleep(0.003)
-                    for c, future in ks:
-                        if future:
-                            prev[c] = True
-                        if not future:
-                            cont.release(c)
-                            prev[c] = False
+        if not T.is_alive():
+            print("Begin...")
+            T.start()
 
 
-listener = keyboard.Listener(
+def getHit():
+    R=randint(1,100)
+    if R == 1:
+        return 0
+    elif R <= 5:
+        return 0.01
+    else:
+        return 0
+
+listener = Listener(
     on_press=on_press)
 listener.start()
