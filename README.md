@@ -5,6 +5,7 @@
 # Getting Started
 1) Download osu! and locate the User folder
 2) Extract the contents of User.rar into the User folder
+3) Change the following settings: Ignore Beatmap skins and Disable all settings in General
 
 
 # Using the bot
