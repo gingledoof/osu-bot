@@ -4,7 +4,7 @@
 
 # Getting Started
 ## 1) Download osu! and locate the User folder
-## 2) Extract the contents of User.rar into the User folder
+   2) Extract the contents of User.rar into the User folder
 
 
 # Using the bot
