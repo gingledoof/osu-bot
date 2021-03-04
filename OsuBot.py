@@ -21,7 +21,7 @@ class OsuBot:
         self.y_center = y_center
         self.note_height = note_height
         self.thres = thres
-        self.noteAction = self.randomHit
+        self.noteAction = self.hit
         self.combo = 0
 
         if mode == '10k':
@@ -59,13 +59,9 @@ class OsuBot:
                             self.cont.release(c)
                             prev[c] = False
 
-    def randomHit(self, key):
-        if (self.combo<2000 and randint(1,20) == 2) or randint(1,1000)>5:
-            self.combo+=1
-            self.cont.press(key)
-        else:
-            #Note miss, combo break
-            self.combo = 0
+    @staticmethod
+    def hit(bot, key):
+        bot.cont.press(key)
 
     @staticmethod
     def getHit():

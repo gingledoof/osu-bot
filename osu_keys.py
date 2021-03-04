@@ -11,7 +11,7 @@ def noteAction(bot, key):
         bot.combo = 0
 
 bot = OsuBot(mode='10k') #Setting mode to 10 key mode
-bot.noteAction = noteAction #Setting behavior function
+#bot.noteAction = noteAction #Setting behavior function. Add this line to allow custom function
 
 
 
