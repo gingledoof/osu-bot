@@ -1,5 +1,6 @@
 # osu-bot
  A bot that can believably play the rythm game, osu!
+ NOTE: Only can play osu!mania as of right now.
 
 
 # Getting Started
