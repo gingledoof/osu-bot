@@ -11,5 +11,7 @@
 # Using the bot
 Begin key tracking by pressing the numlock key. This start key may be changed in utils.py. Refer to pynput documentation.
 Stop key tracking by pressing the escape key. This key may be changed in utils.py as well
-To adjust the random misses, refer to the getHit function in osu_keys.py. This will be upgraded in a future version
+To adjust the note behavior, create a function and assign it to OsuBot##noteAction.
+
+osu_keys.py is an example implementation
 ### NOTE: As of right now, the script is stopped when the assigned quit key is pressed.
