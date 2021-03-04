@@ -1,15 +1,22 @@
 # osu-bot
- A bot that can believably play the rythm game, osu!
+A bot that can believably play the rythm game, osu!
+ 
+NOTE: Only can play osu!mania as of right now.
 
 
 # Getting Started
 1) Download osu! and locate the User folder
 2) Extract the contents of User.rar into the User folder
-3) Change the following settings: Ignore Beatmap skins and Disable all settings in General
+3) Change the following settings: Ignore Beatmap skins, Unlimited Frame Rate, and disable all settings in General
+4) Set game to windowed mode, so as to reduce issues with capturing frames
+5) Set monitor to 1980x1080, as this is the only resolution that currently works.
 
 
 # Using the bot
-Begin key tracking by pressing the numlock key. This start key may be changed in utils.py. Refer to pynput documentation.
-Stop key tracking by pressing the escape key. This key may be changed in utils.py as well
-To adjust the random misses, refer to the getHit function in osu_keys.py. This will be upgraded in a future version
-### NOTE: As of right now, every time the bot is restarted using these keys, you MUST restart the python script. This will be resolved in a later fix.
+Begin key tracking by pressing the numlock key. This start key may be changed when instantiating OsuBot object. Refer to OsuBot and pynput documentation.
+Stop key tracking by pressing the escape key. This key may be changed as well
+To adjust the note behavior, create a function and assign it to OsuBot##noteAction.
+
+osu_keys.py is an example implementation
+### NOTES:
+As of right now, the script is stopped when the assigned quit key is pressed. You may encounter issues if your computer is running slow while using this bot, as it is heavily reliant on accurate framerates
