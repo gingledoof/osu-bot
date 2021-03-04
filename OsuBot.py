@@ -21,6 +21,8 @@ class OsuBot:
         self.y_center = y_center
         self.note_height = note_height
         self.thres = thres
+        self.noteAction = self.randomHit
+        self.combo = 0
 
         if mode == '10k':
             self.keys = {'q': 40, 'w': 110, 'e': 175, 'r': 240, 't': 310, 'y': 466, 'u': 532, 'i': 600, 'o': 668,
@@ -48,8 +50,7 @@ class OsuBot:
                 if len(ks) != 0:
                     for c, future in ks:
                         if prev[c] == False:
-                            sleep(OsuBot.getHit())
-                            self.cont.press(c)
+                            self.noteAction(self, c)
                     sleep(self.note_delay)
                     for c, future in ks:
                         if future:
@@ -57,6 +58,15 @@ class OsuBot:
                         if not future:
                             self.cont.release(c)
                             prev[c] = False
+
+    def randomHit(self, key):
+        if (self.combo<2000 and randint(1,20) == 2) or randint(1,1000)>5:
+            self.combo+=1
+            self.cont.press(key)
+        else:
+            #Note miss, combo break
+            self.combo = 0
+
     @staticmethod
     def getHit():
         R = randint(1, 100)
@@ -120,6 +130,7 @@ class OsuBot:
             self.MainThread.start()
             print("Begin...")
 
+#This sucks right now
 class StoppableThread(threading.Thread):
 
     def __init__(self,  *args, **kwargs):
