@@ -8,7 +8,8 @@ NOTE: Only can play osu!mania as of right now.
 1) Download osu! and locate the User folder
 2) Extract the contents of User.rar into the User folder
 3) Change the following settings: Ignore Beatmap skins, Unlimited Frame Rate, and disable all settings in General
-4) Set monitor to 1980x1080, as this is the only resolution that currently works.
+4) Set game to windowed mode, so as to reduce issues with capturing frames
+5) Set monitor to 1980x1080, as this is the only resolution that currently works.
 
 
 # Using the bot
